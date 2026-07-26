@@ -40,7 +40,7 @@ export function AttractScreen({ onStart, isFullscreen, onToggleFullscreen, isMut
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          Picture Puzzle
+          Rubus Puzzle
         </motion.h1>
         <motion.p
           className={styles.subtitle}

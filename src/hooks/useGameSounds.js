@@ -5,14 +5,14 @@ const MUTE_STORAGE_KEY = 'rubus-puzzle:muted'
 
 /** Expected files under public/sounds/ — see README. Missing files degrade to silent no-ops. */
 const SOUND_FILES = {
-  countdown: '/sounds/countdown.mp3',
-  go: '/sounds/go.mp3',
-  correct: '/sounds/correct.mp3',
-  wrong: '/sounds/wrong.mp3',
-  timeout: '/sounds/timeout.mp3',
-  result: '/sounds/result.mp3',
+  countdown: '/sounds/countdown.wav',
+  go: '/sounds/go.wav',
+  correct: '/sounds/correct.wav',
+  wrong: '/sounds/wrong.wav',
+  timeout: '/sounds/timeout.wav',
+  result: '/sounds/result.wav',
 }
-const MUSIC_FILE = '/sounds/music.mp3'
+const MUSIC_FILE = '/sounds/music.wav'
 const MUSIC_VOLUME = 0.35
 const MUSIC_DUCKED_VOLUME = 0.1
 
@@ -53,7 +53,11 @@ export function useGameSounds() {
         volume: 0.8,
         onload: settle,
         onloaderror: (_id, err) => {
-          if (import.meta.env.DEV) {
+          // In dev, StrictMode mounts this effect twice and unloads the first
+          // Howl instance while its decode is still in flight; Howler then
+          // reports that discarded instance as a decode failure even though
+          // nothing is actually wrong. Only warn if we're not that instance.
+          if (import.meta.env.DEV && !cancelled) {
             console.warn(`[useGameSounds] Failed to load "${key}" sound (${src}):`, err)
           }
           settle()
@@ -66,7 +70,7 @@ export function useGameSounds() {
       loop: true,
       volume: MUSIC_VOLUME,
       onloaderror: (_id, err) => {
-        if (import.meta.env.DEV) {
+        if (import.meta.env.DEV && !cancelled) {
           console.warn(`[useGameSounds] Failed to load background music (${MUSIC_FILE}):`, err)
         }
       },

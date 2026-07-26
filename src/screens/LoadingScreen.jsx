@@ -7,7 +7,7 @@ export function LoadingScreen({ progress }) {
   return (
     <div className={styles.wrapper}>
       <motion.div className={styles.badge} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-        Picture Puzzle
+        Rubus Puzzle
       </motion.div>
       <div
         className={styles.track}
