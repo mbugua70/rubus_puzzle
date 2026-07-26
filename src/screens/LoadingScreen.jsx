@@ -1,25 +1,22 @@
 import { motion } from 'motion/react'
 import styles from './LoadingScreen.module.css'
 
-export function LoadingScreen({ progress }) {
-  const percent = Math.round(progress * 100)
-
+/** Generic full-screen loading state, used both for the initial REST fetch and while the socket is connecting/joining. */
+export function LoadingScreen({ message }) {
   return (
     <div className={styles.wrapper}>
-      <motion.div className={styles.badge} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+      <motion.div
+        className={styles.badge}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
         Rubus Puzzle
       </motion.div>
-      <div
-        className={styles.track}
-        role="progressbar"
-        aria-label="Loading progress"
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={percent}
-      >
-        <motion.div className={styles.fill} animate={{ width: `${percent}%` }} transition={{ duration: 0.2 }} />
+      <div className={styles.track} role="progressbar" aria-label={message}>
+        <div className={styles.fill} />
       </div>
-      <div className={styles.percent}>{percent}%</div>
+      <div className={styles.message}>{message}</div>
     </div>
   )
 }

@@ -2,13 +2,14 @@ import { motion } from 'motion/react'
 import { FullscreenButton } from '../components/FullscreenButton.jsx'
 import { SoundButton } from '../components/SoundButton.jsx'
 import { puzzles } from '../data/puzzles.js'
-import styles from './AttractScreen.module.css'
+import styles from './WaitingScreen.module.css'
 
 // A handful of puzzle images drift subtly in the background — decorative
 // only, so they're aria-hidden and never announced.
 const BACKGROUND_IMAGES = puzzles.slice(0, 6).map((puzzle) => puzzle.leftImage)
 
-export function AttractScreen({ onStart, isFullscreen, onToggleFullscreen, isMuted, onToggleMute }) {
+/** Shown while the backend session status is "waiting" - before the facilitator presses Start. */
+export function WaitingScreen({ gameCode, facilitatorConnected, isFullscreen, onToggleFullscreen, isMuted, onToggleMute }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.controls}>
@@ -42,28 +43,26 @@ export function AttractScreen({ onStart, isFullscreen, onToggleFullscreen, isMut
         >
           Rubus Puzzle
         </motion.h1>
+
         <motion.p
-          className={styles.subtitle}
+          className={styles.status}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          Combine the pictures. Guess the answer.
+          Waiting for the facilitator to start
         </motion.p>
 
-        <motion.button
-          type="button"
-          className={styles.startButton}
-          onClick={onStart}
-          animate={{ scale: [1, 1.04, 1] }}
-          transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-          whileHover={{ scale: 1.06 }}
-          whileTap={{ scale: 0.96 }}
-        >
-          Start Game
-        </motion.button>
+        <div className={styles.gameCode} aria-label={`Game code ${gameCode}`}>
+          {gameCode}
+        </div>
 
-        <p className={styles.hint}>Press Enter to start</p>
+        <div className={styles.presence} role="status" aria-live="polite">
+          <span className={styles.presenceItem}>
+            <span className={styles.presenceDot} data-connected={facilitatorConnected} />
+            Facilitator {facilitatorConnected ? 'connected' : 'not connected'}
+          </span>
+        </div>
       </div>
     </div>
   )

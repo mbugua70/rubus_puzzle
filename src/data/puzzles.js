@@ -1,86 +1,140 @@
 /**
- * @typedef {import('../types/game.js').Puzzle} Puzzle
+ * @typedef {Object} Puzzle
+ * @property {string} id
+ * @property {string} answer
+ * @property {[string, string]} componentWords
+ * @property {string} leftImage
+ * @property {string} rightImage
+ * @property {string} category
+ * @property {"easy" | "medium" | "hard"} difficulty
+ * @property {string} hint
+ * @property {boolean} active
  */
 
 /**
- * Curated to match the assets actually present in public/puzzleImage/.
- * The spec's original 10th puzzle (fire + man = Fireman) is intentionally
- * dropped: there is no fire image in public/puzzleImage, and the other 18
- * images divide evenly into these 9 puzzles with nothing left over.
+ * The complete local puzzle catalogue - must stay identical to
+ * facilitator_rubuspuzzle/src/data/puzzles.js (same ids, same order-independence)
+ * since the backend only ever stores puzzle ids, never puzzle content. The
+ * display client maps `currentPuzzleId` from `game:state` onto this catalogue.
  *
  * @type {Puzzle[]}
  */
 export const puzzles = [
   {
-    id: 1,
+    id: 'rainbow',
+    answer: 'Rainbow',
+    componentWords: ['Rain', 'Bow'],
     leftImage: '/puzzleImage/rain.jpg',
     rightImage: '/puzzleImage/bow.png',
-    leftWord: 'Rain',
-    rightWord: 'Bow',
-    answer: 'Rainbow',
+    category: 'Nature',
+    difficulty: 'easy',
+    hint: 'Appears in the sky after it rains.',
+    active: true,
   },
   {
-    id: 2,
+    id: 'starfish',
+    answer: 'Starfish',
+    componentWords: ['Star', 'Fish'],
     leftImage: '/puzzleImage/star.png',
     rightImage: '/puzzleImage/fish.png',
-    leftWord: 'Star',
-    rightWord: 'Fish',
-    answer: 'Starfish',
+    category: 'Nature',
+    difficulty: 'easy',
+    hint: 'A sea creature shaped like a star.',
+    active: true,
   },
   {
-    id: 3,
+    id: 'the-lion-king',
+    answer: 'The Lion King',
+    componentWords: ['Lion', 'King'],
     leftImage: '/puzzleImage/lion.png',
     rightImage: '/puzzleImage/king.png',
-    leftWord: 'Lion',
-    rightWord: 'King',
-    answer: 'The Lion King',
+    category: 'Movie',
+    difficulty: 'medium',
+    hint: 'A classic Disney movie about a young lion prince.',
+    active: true,
   },
   {
-    id: 4,
+    id: 'spider-man',
+    answer: 'Spider-Man',
+    componentWords: ['Spider', 'Man'],
     leftImage: '/puzzleImage/spider.png',
     rightImage: '/puzzleImage/man.png',
-    leftWord: 'Spider',
-    rightWord: 'Man',
-    answer: 'Spider-Man',
+    category: 'Superhero',
+    difficulty: 'easy',
+    hint: 'A superhero who climbs walls and shoots webs.',
+    active: true,
   },
   {
-    id: 5,
+    id: 'toothbrush',
+    answer: 'Toothbrush',
+    componentWords: ['Tooth', 'Brush'],
     leftImage: '/puzzleImage/tooth.png',
     rightImage: '/puzzleImage/brush.png',
-    leftWord: 'Tooth',
-    rightWord: 'Brush',
-    answer: 'Toothbrush',
+    category: 'Object',
+    difficulty: 'easy',
+    hint: 'You use this to clean your teeth.',
+    active: true,
   },
   {
-    id: 6,
+    id: 'butterfly',
+    answer: 'Butterfly',
+    componentWords: ['Butter', 'Fly'],
     leftImage: '/puzzleImage/butter.png',
     rightImage: '/puzzleImage/fly.png',
-    leftWord: 'Butter',
-    rightWord: 'Fly',
-    answer: 'Butterfly',
+    category: 'Nature',
+    difficulty: 'easy',
+    hint: 'A colorful insect that starts out as a caterpillar.',
+    active: true,
   },
   {
-    id: 7,
+    id: 'honeymoon',
+    answer: 'Honeymoon',
+    componentWords: ['Honey', 'Moon'],
     leftImage: '/puzzleImage/honey.png',
     rightImage: '/puzzleImage/moon.png',
-    leftWord: 'Honey',
-    rightWord: 'Moon',
-    answer: 'Honeymoon',
+    category: 'Event',
+    difficulty: 'medium',
+    hint: 'A trip newlyweds take after their wedding.',
+    active: true,
   },
   {
-    id: 8,
+    id: 'fireman',
+    answer: 'Fireman',
+    componentWords: ['Fire', 'Man'],
+    leftImage: '/puzzleImage/fire.svg',
+    rightImage: '/puzzleImage/man.png',
+    category: 'Occupation',
+    difficulty: 'easy',
+    hint: 'This person puts out fires and rescues people.',
+    active: true,
+  },
+  {
+    id: 'facebook',
+    answer: 'Facebook',
+    componentWords: ['Face', 'Book'],
     leftImage: '/puzzleImage/face.png',
     rightImage: '/puzzleImage/book.png',
-    leftWord: 'Face',
-    rightWord: 'Book',
-    answer: 'Facebook',
+    category: 'Technology',
+    difficulty: 'medium',
+    hint: 'A popular social media platform.',
+    active: true,
   },
   {
-    id: 9,
+    id: 'basketball',
+    answer: 'Basketball',
+    componentWords: ['Basket', 'Ball'],
     leftImage: '/puzzleImage/basket.png',
     rightImage: '/puzzleImage/ball.png',
-    leftWord: 'Basket',
-    rightWord: 'Ball',
-    answer: 'Basketball',
+    category: 'Sport',
+    difficulty: 'easy',
+    hint: 'A sport where players shoot a ball through a hoop.',
+    active: true,
   },
 ]
+
+const puzzlesById = new Map(puzzles.map((puzzle) => [puzzle.id, puzzle]))
+
+/** Looks up a puzzle by the id the backend sends as `currentPuzzleId`. Returns null for an unknown id instead of throwing, so a stale/renamed id can't crash the display. */
+export function getPuzzleById(puzzleId) {
+  return puzzlesById.get(puzzleId) ?? null
+}

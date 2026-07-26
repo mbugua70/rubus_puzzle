@@ -1,82 +1,37 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
+
+const TICK_MS = 100
 
 /**
- * Timestamp-based countdown so drift doesn't accumulate across ticks
- * (a naive setInterval(-1) countdown slowly desyncs from wall-clock time).
- * Pausing snapshots the remaining time; resuming recomputes the end
- * timestamp from that snapshot rather than resetting the duration.
+ * Purely visual countdown derived from the backend's `questionStartedAt`/
+ * `questionEndsAt` timestamps. This never decides anything - it doesn't emit
+ * a timeout, doesn't touch backend state, and doesn't switch game status.
+ * When the backend's own timer actually expires, a new `game:state` (status
+ * "timeout") arrives and this hook just stops ticking because
+ * `questionEndsAt` goes back to null.
  *
- * @param {{ onExpire?: () => void }} [options]
+ * @param {{ questionStartedAt: string|null, questionEndsAt: string|null, isPaused?: boolean }} options
  */
-export function useGameTimer({ onExpire } = {}) {
-  const [timeRemaining, setTimeRemaining] = useState(0)
-  const [duration, setDuration] = useState(0)
-  const [isRunning, setIsRunning] = useState(false)
+export function useGameTimer({ questionStartedAt, questionEndsAt, isPaused }) {
+  const [now, setNow] = useState(() => Date.now())
 
-  const endTimeRef = useRef(null)
-  const remainingAtPauseRef = useRef(0)
-  const frameRef = useRef(null)
-  const onExpireRef = useRef(onExpire)
-  onExpireRef.current = onExpire
+  useEffect(() => {
+    setNow(Date.now())
 
-  const stopLoop = useCallback(() => {
-    if (frameRef.current !== null) {
-      cancelAnimationFrame(frameRef.current)
-      frameRef.current = null
-    }
-  }, [])
+    if (!questionEndsAt || isPaused) return
 
-  const tick = useCallback(() => {
-    if (endTimeRef.current === null) return
-    const secondsLeft = Math.max(0, (endTimeRef.current - Date.now()) / 1000)
-    setTimeRemaining(secondsLeft)
+    const intervalId = setInterval(() => setNow(Date.now()), TICK_MS)
+    return () => clearInterval(intervalId)
+  }, [questionEndsAt, isPaused])
 
-    if (secondsLeft <= 0) {
-      stopLoop()
-      setIsRunning(false)
-      onExpireRef.current?.()
-      return
-    }
-    frameRef.current = requestAnimationFrame(tick)
-  }, [stopLoop])
+  if (!questionEndsAt) {
+    return { timeRemaining: 0, duration: 0 }
+  }
 
-  const start = useCallback(
-    (seconds) => {
-      stopLoop()
-      setDuration(seconds)
-      setTimeRemaining(seconds)
-      endTimeRef.current = Date.now() + seconds * 1000
-      setIsRunning(true)
-      frameRef.current = requestAnimationFrame(tick)
-    },
-    [stopLoop, tick],
-  )
+  const endMs = new Date(questionEndsAt).getTime()
+  const startMs = questionStartedAt ? new Date(questionStartedAt).getTime() : endMs
+  const duration = Math.max(0, (endMs - startMs) / 1000)
+  const timeRemaining = Math.max(0, (endMs - now) / 1000)
 
-  const pause = useCallback(() => {
-    stopLoop()
-    const secondsLeft = endTimeRef.current ? Math.max(0, (endTimeRef.current - Date.now()) / 1000) : 0
-    remainingAtPauseRef.current = secondsLeft
-    setTimeRemaining(secondsLeft)
-    endTimeRef.current = null
-    setIsRunning(false)
-  }, [stopLoop])
-
-  const resume = useCallback(() => {
-    stopLoop()
-    endTimeRef.current = Date.now() + remainingAtPauseRef.current * 1000
-    setIsRunning(true)
-    frameRef.current = requestAnimationFrame(tick)
-  }, [stopLoop, tick])
-
-  const stop = useCallback(() => {
-    stopLoop()
-    endTimeRef.current = null
-    setIsRunning(false)
-  }, [stopLoop])
-
-  // Belt-and-braces cleanup: covers unmount, StrictMode double-invoke, and
-  // any path that forgets to call stop() explicitly.
-  useEffect(() => stopLoop, [stopLoop])
-
-  return { timeRemaining, duration, isRunning, start, pause, resume, stop }
+  return { timeRemaining, duration }
 }

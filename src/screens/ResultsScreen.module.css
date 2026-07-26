@@ -60,25 +60,8 @@
   letter-spacing: 0.08em;
 }
 
-.restartButton {
-  margin-top: clamp(16px, 2vw, 28px);
-  padding: clamp(16px, 1.8vw, 24px) clamp(40px, 4.5vw, 72px);
-  font-size: clamp(20px, 2.2vw, 32px);
-  font-weight: 700;
-  color: var(--color-bg);
-  background: var(--color-accent);
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: var(--shadow-glow);
-}
-
-.restartButton:focus-visible {
-  outline: 3px solid var(--color-text);
-  outline-offset: 4px;
-}
-
 .hint {
+  margin-top: clamp(16px, 2vw, 28px);
   color: var(--color-text-muted);
   font-size: clamp(14px, 1.3vw, 18px);
 }

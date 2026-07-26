@@ -32,11 +32,10 @@ function Confetti() {
 const CONTENT_BY_STATUS = {
   correct: { icon: '✓', title: 'CORRECT!', tone: 'correct' },
   wrong: { icon: '✕', title: 'NOT QUITE!', tone: 'wrong' },
-  skipped: { icon: '↷', title: 'SKIPPED', tone: 'skipped' },
   timeout: { icon: '⏱', title: "TIME'S UP!", tone: 'timeout' },
 }
 
-/** Shown over the puzzle once it's been judged (or timed out / skipped); reveals the answer. */
+/** Shown over the puzzle once the backend has judged it (correct/wrong) or it's timed out; reveals the answer. */
 export function FeedbackOverlay({ status, answer }) {
   const content = CONTENT_BY_STATUS[status]
   if (!content) return null

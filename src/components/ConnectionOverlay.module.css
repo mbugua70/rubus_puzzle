@@ -1,0 +1,36 @@
+.banner {
+  position: absolute;
+  top: clamp(16px, 2vw, 32px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: clamp(10px, 1vw, 16px) clamp(18px, 2vw, 28px);
+  background: var(--color-overlay-strong);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text);
+  font-size: clamp(14px, 1.2vw, 20px);
+  font-weight: 600;
+  box-shadow: var(--shadow-card);
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-warning);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}

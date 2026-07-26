@@ -2,7 +2,8 @@ import { motion } from 'motion/react'
 import { getResultMessage } from '../utils/gameResults.js'
 import styles from './ResultsScreen.module.css'
 
-export function ResultsScreen({ score, correctCount, wrongCount, skippedCount, totalPuzzles, onRestart }) {
+/** Shown while the backend status is "finished". Every number here is the server's, never computed locally. */
+export function ResultsScreen({ score, correctCount, wrongCount, skippedCount, timeoutCount, totalPuzzles }) {
   const message = getResultMessage(correctCount, totalPuzzles)
 
   return (
@@ -39,22 +40,19 @@ export function ResultsScreen({ score, correctCount, wrongCount, skippedCount, t
           <span className={styles.statValue}>{skippedCount}</span>
           <span className={styles.statLabel}>Skipped</span>
         </div>
+        {typeof timeoutCount === 'number' && (
+          <div className={styles.stat}>
+            <span className={styles.statValue}>{timeoutCount}</span>
+            <span className={styles.statLabel}>Timed out</span>
+          </div>
+        )}
         <div className={styles.stat}>
           <span className={styles.statValue}>{totalPuzzles}</span>
           <span className={styles.statLabel}>Total</span>
         </div>
       </div>
 
-      <motion.button
-        type="button"
-        className={styles.restartButton}
-        onClick={onRestart}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.96 }}
-      >
-        Play Again
-      </motion.button>
-      <p className={styles.hint}>Press R to restart</p>
+      <p className={styles.hint}>Waiting for the facilitator to restart</p>
     </div>
   )
 }
