@@ -4,10 +4,18 @@
  */
 
 /**
- * @typedef {'loading'|'idle'|'countdown'|'playing'|'correct'|'wrong'|'timeout'|'paused'|'finished'} GameStatus
+ * @typedef {'loading'|'idle'|'countdown'|'playing'|'correct'|'wrong'|'skipped'|'timeout'|'paused'|'finished'} GameStatus
  */
 
-/** Single source of truth for the status values above, to avoid typos scattered through the app. */
+/**
+ * Single source of truth for the status values above, to avoid typos scattered through the app.
+ *
+ * Note: 'skipped' is an addition to the original spec's status list. The spec
+ * describes a Skip screen with its own distinct message ("SKIPPED") separate
+ * from Wrong ("NOT QUITE!"), which needs its own status value to stay
+ * consistent with "one status field, not booleans" rather than overloading
+ * the 'wrong' status.
+ */
 export const GameStatus = Object.freeze({
   LOADING: 'loading',
   IDLE: 'idle',
@@ -15,6 +23,7 @@ export const GameStatus = Object.freeze({
   PLAYING: 'playing',
   CORRECT: 'correct',
   WRONG: 'wrong',
+  SKIPPED: 'skipped',
   TIMEOUT: 'timeout',
   PAUSED: 'paused',
   FINISHED: 'finished',
