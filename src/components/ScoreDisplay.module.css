@@ -1,0 +1,26 @@
+.wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(6px, 1vw, 12px);
+}
+
+.label {
+  font-size: clamp(14px, 1.4vw, 20px);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+.valueWrapper {
+  position: relative;
+  display: inline-grid;
+}
+
+.value {
+  font-size: clamp(24px, 2.6vw, 40px);
+  font-weight: 800;
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+  grid-area: 1 / 1;
+}

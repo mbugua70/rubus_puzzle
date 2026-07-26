@@ -1,0 +1,37 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 1vw, 12px);
+  width: min(520px, 60vw);
+}
+
+.number {
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.number[data-urgent] {
+  color: var(--color-danger);
+}
+
+.track {
+  width: 100%;
+  height: clamp(10px, 1.2vw, 16px);
+  background: var(--color-surface-translucent);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: var(--color-accent);
+  border-radius: inherit;
+}
+
+.fill[data-urgent] {
+  background: var(--color-danger);
+}
