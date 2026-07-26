@@ -68,22 +68,22 @@
 }
 
 .title {
-  font-size: clamp(48px, 7vw, 104px);
+  font-size: clamp(48px, 7vw, 160px);
   font-weight: 800;
   color: var(--color-text);
   letter-spacing: 0.01em;
 }
 
 .subtitle {
-  font-size: clamp(18px, 2vw, 30px);
+  font-size: clamp(18px, 2vw, 42px);
   color: var(--color-text-muted);
   font-weight: 500;
 }
 
 .startButton {
   margin-top: clamp(16px, 2vw, 28px);
-  padding: clamp(16px, 1.8vw, 24px) clamp(40px, 4.5vw, 72px);
-  font-size: clamp(20px, 2.2vw, 32px);
+  padding: clamp(16px, 1.8vw, 32px) clamp(40px, 4.5vw, 96px);
+  font-size: clamp(20px, 2.2vw, 44px);
   font-weight: 700;
   color: var(--color-bg);
   background: var(--color-accent);

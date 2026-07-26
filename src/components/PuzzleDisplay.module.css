@@ -9,11 +9,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(20px, 3.5vw, 56px);
+  gap: clamp(20px, 3.5vw, 72px);
 }
 
 .plus {
-  font-size: clamp(40px, 5.5vw, 88px);
+  font-size: clamp(40px, 5.5vw, 130px);
   font-weight: 800;
   color: var(--color-accent);
   line-height: 1;

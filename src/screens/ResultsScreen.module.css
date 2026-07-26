@@ -11,13 +11,13 @@
 }
 
 .heading {
-  font-size: clamp(40px, 5.5vw, 80px);
+  font-size: clamp(40px, 5.5vw, 110px);
   font-weight: 800;
   color: var(--color-accent);
 }
 
 .score {
-  font-size: clamp(48px, 6vw, 88px);
+  font-size: clamp(48px, 6vw, 120px);
   font-weight: 800;
   color: var(--color-text);
   display: flex;

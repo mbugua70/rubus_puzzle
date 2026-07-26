@@ -6,8 +6,8 @@
   align-items: center;
   justify-content: center;
   padding: clamp(16px, 2vw, 32px);
-  width: clamp(200px, 24vw, 400px);
-  height: clamp(200px, 24vw, 400px);
+  width: clamp(200px, 22vw, 560px);
+  height: clamp(200px, 22vw, 560px);
   overflow: hidden;
   flex-shrink: 0;
 }

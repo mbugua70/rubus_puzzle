@@ -18,7 +18,7 @@
 }
 
 .value {
-  font-size: clamp(24px, 2.6vw, 40px);
+  font-size: clamp(24px, 2.6vw, 52px);
   font-weight: 800;
   color: var(--color-accent);
   font-variant-numeric: tabular-nums;

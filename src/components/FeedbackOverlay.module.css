@@ -28,26 +28,26 @@
 }
 
 .icon {
-  font-size: clamp(56px, 7vw, 108px);
+  font-size: clamp(56px, 7vw, 150px);
   color: var(--tone-color);
   line-height: 1;
 }
 
 .title {
-  font-size: clamp(32px, 4.5vw, 60px);
+  font-size: clamp(32px, 4.5vw, 84px);
   font-weight: 800;
   color: var(--color-text);
   letter-spacing: 0.02em;
 }
 
 .answer {
-  font-size: clamp(22px, 2.8vw, 38px);
+  font-size: clamp(22px, 2.8vw, 52px);
   color: var(--tone-color);
   font-weight: 700;
 }
 
 .points {
-  font-size: clamp(18px, 2.2vw, 30px);
+  font-size: clamp(18px, 2.2vw, 40px);
   color: var(--color-accent);
   font-weight: 700;
 }

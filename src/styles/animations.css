@@ -1,0 +1,52 @@
+/*
+ * Ambient background decoration shared by every screen. Pure CSS (not
+ * Motion) since it's a passive, indefinite loop with no interaction or
+ * state to drive it — no reason to pay for JS-driven animation here.
+ */
+@keyframes drift-a {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(40px, -30px) scale(1.08);
+  }
+}
+
+@keyframes drift-b {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-50px, 40px) scale(1.05);
+  }
+}
+
+body::before,
+body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+body::before {
+  width: 42vw;
+  height: 42vw;
+  top: -12%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(255, 201, 77, 0.16), transparent 70%);
+  animation: drift-a 18s ease-in-out infinite;
+}
+
+body::after {
+  width: 46vw;
+  height: 46vw;
+  bottom: -16%;
+  right: -10%;
+  background: radial-gradient(circle, rgba(6, 214, 160, 0.12), transparent 70%);
+  animation: drift-b 22s ease-in-out infinite;
+}

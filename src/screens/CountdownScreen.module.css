@@ -7,7 +7,7 @@
 }
 
 .value {
-  font-size: clamp(120px, 20vw, 320px);
+  font-size: clamp(120px, 20vw, 440px);
   font-weight: 800;
   color: var(--color-text);
   line-height: 1;

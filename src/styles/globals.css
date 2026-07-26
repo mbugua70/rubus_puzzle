@@ -51,6 +51,8 @@ body {
 
 #root {
   display: flex;
+  position: relative;
+  z-index: 1;
 }
 
 #root > * {

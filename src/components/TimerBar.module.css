@@ -7,7 +7,7 @@
 }
 
 .number {
-  font-size: clamp(32px, 4vw, 56px);
+  font-size: clamp(32px, 4vw, 76px);
   font-weight: 800;
   color: var(--color-text);
   line-height: 1;
