@@ -1,122 +1,78 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect } from 'react'
+import { useGame } from './hooks/useGame.js'
+import { useGameSounds } from './hooks/useGameSounds.js'
+import { useFullscreen } from './hooks/useFullscreen.js'
+import { useKeyboardControls } from './hooks/useKeyboardControls.js'
+import { usePreloadAssets } from './hooks/usePreloadAssets.js'
+import { GameStatus } from './types/game.js'
+import { LoadingScreen } from './screens/LoadingScreen.jsx'
+import { AttractScreen } from './screens/AttractScreen.jsx'
+import { CountdownScreen } from './screens/CountdownScreen.jsx'
+import { GameScreen } from './screens/GameScreen.jsx'
+import { ResultsScreen } from './screens/ResultsScreen.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const sounds = useGameSounds()
+  const preload = usePreloadAssets({ soundsReady: sounds.isReady })
+  const game = useGame(sounds)
+  const fullscreen = useFullscreen()
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+  const { status, completeLoading } = game
+  useEffect(() => {
+    if (preload.isReady && status === GameStatus.LOADING) {
+      completeLoading()
+    }
+  }, [preload.isReady, status, completeLoading])
 
-      <div className="ticks"></div>
+  useKeyboardControls({
+    status: game.status,
+    onStart: game.startGame,
+    onCorrect: game.markCorrect,
+    onWrong: game.markWrong,
+    onSkip: game.skipPuzzle,
+    onTogglePause: () => {
+      if (game.status === GameStatus.PLAYING) game.pauseGame()
+      else if (game.status === GameStatus.PAUSED) game.resumeGame()
+    },
+    onRestart: game.restartGame,
+    onToggleFullscreen: fullscreen.toggle,
+    onToggleMute: sounds.toggleMute,
+  })
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+  switch (game.status) {
+    case GameStatus.LOADING:
+      return <LoadingScreen progress={preload.progress} />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+    case GameStatus.IDLE:
+      return (
+        <AttractScreen
+          onStart={game.startGame}
+          isFullscreen={fullscreen.isFullscreen}
+          onToggleFullscreen={fullscreen.toggle}
+          isMuted={sounds.isMuted}
+          onToggleMute={sounds.toggleMute}
+        />
+      )
+
+    case GameStatus.COUNTDOWN:
+      return <CountdownScreen onComplete={game.handleCountdownComplete} playSound={sounds.play} />
+
+    case GameStatus.FINISHED:
+      return (
+        <ResultsScreen
+          score={game.score}
+          correctCount={game.correctCount}
+          wrongCount={game.wrongCount}
+          skippedCount={game.skippedCount}
+          totalPuzzles={game.totalPuzzles}
+          onRestart={game.restartGame}
+        />
+      )
+
+    // playing, correct, wrong, skipped, timeout, paused all render the same screen shell.
+    default:
+      return <GameScreen game={game} />
+  }
 }
 
 export default App
