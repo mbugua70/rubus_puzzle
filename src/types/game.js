@@ -1,55 +1,63 @@
 /**
- * Central shape definitions for the game state machine.
- * Plain JS + JSDoc (no TypeScript) so editors still get intellisense.
- */
-
-/**
- * @typedef {'loading'|'idle'|'countdown'|'playing'|'correct'|'wrong'|'skipped'|'timeout'|'paused'|'finished'} GameStatus
- */
-
-/**
- * Single source of truth for the status values above, to avoid typos scattered through the app.
+ * Central shape definitions for the display client. Plain JS + JSDoc (no
+ * TypeScript) so editors still get intellisense.
  *
- * Note: 'skipped' is an addition to the original spec's status list. The spec
- * describes a Skip screen with its own distinct message ("SKIPPED") separate
- * from Wrong ("NOT QUITE!"), which needs its own status value to stay
- * consistent with "one status field, not booleans" rather than overloading
- * the 'wrong' status.
+ * These mirror the backend exactly (rubus_puzzle_backend/src/types/game.types.ts
+ * and socket.types.ts) - the backend is the single source of truth for game
+ * state, this file just documents its shape for the display client.
  */
+
+/**
+ * @typedef {'waiting'|'countdown'|'playing'|'correct'|'wrong'|'timeout'|'paused'|'finished'} GameStatus
+ */
+
+/** Single source of truth for the status values above, to avoid typos scattered through the app. */
 export const GameStatus = Object.freeze({
-  LOADING: 'loading',
-  IDLE: 'idle',
+  WAITING: 'waiting',
   COUNTDOWN: 'countdown',
   PLAYING: 'playing',
   CORRECT: 'correct',
   WRONG: 'wrong',
-  SKIPPED: 'skipped',
   TIMEOUT: 'timeout',
   PAUSED: 'paused',
   FINISHED: 'finished',
 })
 
 /**
- * @typedef {Object} Puzzle
- * @property {number} id
- * @property {string} leftImage
- * @property {string} rightImage
- * @property {string} leftWord
- * @property {string} rightWord
- * @property {string} answer
- */
-
-/**
- * @typedef {Object} GameState
+ * @typedef {Object} GameStatePayload
+ * @property {string} gameCode
  * @property {GameStatus} status
+ * @property {string[]} puzzleIds
  * @property {number} currentPuzzleIndex
+ * @property {string|null} currentPuzzleId
  * @property {number} score
  * @property {number} correctCount
  * @property {number} wrongCount
  * @property {number} skippedCount
- * @property {number} timeRemaining
- * @property {boolean} hasAnsweredCurrentPuzzle
+ * @property {number} timeoutCount
+ * @property {boolean} currentPuzzleAnswered
+ * @property {string|null} questionStartedAt ISO timestamp
+ * @property {string|null} questionEndsAt ISO timestamp
+ * @property {string|null} startedAt ISO timestamp
+ * @property {string|null} finishedAt ISO timestamp
+ * @property {boolean} facilitatorConnected
+ * @property {boolean} displayConnected
  */
 
-export const PUZZLE_DURATION_SECONDS = 10
-export const POINTS_PER_CORRECT_ANSWER = 10
+/**
+ * @typedef {{ success: true, data: T }} ApiSuccess<T>
+ * @template T
+ */
+
+/**
+ * @typedef {{ success: false, message: string }} ApiFailure
+ */
+
+/**
+ * @typedef {ApiSuccess<T>|ApiFailure} ApiResponse<T>
+ * @template T
+ */
+
+/**
+ * @typedef {{ success: true, data: GameStatePayload }|{ success: false, message: string }} SocketAck
+ */
