@@ -11,6 +11,8 @@ import { GameScreen } from '../screens/GameScreen.jsx'
 import { ResultsScreen } from '../screens/ResultsScreen.jsx'
 import { GameLoadErrorScreen } from '../screens/GameLoadErrorScreen.jsx'
 import { ConnectionOverlay } from './ConnectionOverlay.jsx'
+import { FullscreenButton } from './FullscreenButton.jsx'
+import styles from './ConnectedGameDisplay.module.css'
 
 /**
  * Mounted only once an initial REST snapshot exists for this game code.
@@ -93,6 +95,11 @@ export function ConnectedGameDisplay({ gameCode, initialState }) {
   return (
     <>
       {screen}
+      {state.status !== GameStatus.WAITING && (
+        <div className={styles.floatingControls}>
+          <FullscreenButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
+        </div>
+      )}
       {showOverlay && <ConnectionOverlay label={overlayLabel} />}
     </>
   )
