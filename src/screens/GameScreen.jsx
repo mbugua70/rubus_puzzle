@@ -57,7 +57,7 @@ export function GameScreen({ status, puzzle, currentPuzzleIndex, totalPuzzles, s
         <ScoreDisplay score={score} />
       </header>
 
-      <div className={styles.center}>
+      <div className={`${styles.center} crt-scanlines`}>
         <PuzzleDisplay puzzle={puzzle} shake={status === GameStatus.WRONG} />
         {showFeedback && <FeedbackOverlay status={status} answer={puzzle?.answer} />}
         {isPaused && (

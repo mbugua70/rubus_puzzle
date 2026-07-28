@@ -1,22 +1,35 @@
 :root {
-  --color-bg: #0b0a1f;
-  --color-bg-gradient: linear-gradient(160deg, #120f2e 0%, #1c1440 45%, #2a1854 100%);
+  /* Safaricom Hackathon palette — matches the tug_war companion game */
+  --color-green: #00a651; /* Safaricom green */
+  --color-green-neon: #00e676;
+  --color-amber: #ffb300;
+  --color-cyan: #00e5ff;
+
+  --color-bg: #070c09;
+  --color-bg-gradient:
+    repeating-linear-gradient(0deg, rgba(0, 230, 118, 0.05) 0px, rgba(0, 230, 118, 0.05) 1px, transparent 1px, transparent 42px),
+    repeating-linear-gradient(90deg, rgba(0, 230, 118, 0.05) 0px, rgba(0, 230, 118, 0.05) 1px, transparent 1px, transparent 42px),
+    radial-gradient(ellipse at 50% 0%, #0d2318 0%, #050a08 60%),
+    #040705;
   --color-surface: #ffffff;
-  --color-surface-translucent: rgba(255, 255, 255, 0.08);
-  --color-surface-translucent-strong: rgba(255, 255, 255, 0.16);
-  --color-text: #f5f3ff;
-  --color-text-muted: #a79fd1;
-  --color-accent: #ffc94d;
-  --color-danger: #ef476f;
-  --color-warning: #f4a261;
-  --color-success: #06d6a0;
-  --color-border: rgba(255, 255, 255, 0.14);
-  --color-overlay: rgba(10, 8, 30, 0.88);
-  --color-overlay-strong: rgba(6, 5, 20, 0.94);
+  --color-surface-translucent: rgba(0, 230, 118, 0.08);
+  --color-surface-translucent-strong: rgba(0, 230, 118, 0.16);
+  --color-text: #f5fff8;
+  --color-text-muted: #9fd1b6;
+  --color-accent: var(--color-green-neon);
+  --color-danger: #ff3b30;
+  --color-warning: var(--color-amber);
+  --color-success: var(--color-cyan);
+  --color-border: rgba(0, 230, 118, 0.16);
+  --color-overlay: rgba(4, 10, 6, 0.88);
+  --color-overlay-strong: rgba(2, 6, 3, 0.94);
 
   --radius-lg: clamp(20px, 2vw, 32px);
-  --shadow-card: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
-  --shadow-glow: 0 0 0 1px rgba(255, 201, 77, 0.4), 0 8px 30px rgba(255, 201, 77, 0.35);
+  --shadow-card: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 230, 118, 0.08);
+  --shadow-glow: 0 0 0 1px rgba(0, 230, 118, 0.4), 0 8px 30px rgba(0, 230, 118, 0.35);
+
+  --font-display: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Space Mono', monospace;
 }
 
 *,
@@ -37,13 +50,7 @@ body,
 body {
   background: var(--color-bg-gradient);
   color: var(--color-text);
-  font-family:
-    'Inter',
-    system-ui,
-    -apple-system,
-    'Segoe UI',
-    Roboto,
-    sans-serif;
+  font-family: var(--font-display);
   /* This is a kiosk/TV display, not a document — text is never meant to be selected. */
   user-select: none;
   -webkit-user-select: none;
@@ -74,5 +81,97 @@ img {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Shared Safaricom Hackathon motifs ────────────────────────────────────── */
+
+/* "● SAFARICOM HACKATHON" pulsing-dot label — drop into any header/hero */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: clamp(11px, 1vw, 14px);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-green-neon);
+}
+.kicker::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-green-neon);
+  box-shadow: 0 0 8px var(--color-green-neon), 0 0 16px var(--color-green-neon);
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.75);
+  }
+}
+
+/* CRT-style scanlines — apply to any relatively-positioned screen/arena wrapper */
+.crt-scanlines {
+  position: relative;
+}
+.crt-scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.12) 0px, rgba(0, 0, 0, 0.12) 1px, transparent 1px, transparent 3px);
+  mix-blend-mode: overlay;
+  animation: scanline-drift 9s linear infinite;
+}
+
+@keyframes scanline-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 240px;
+  }
+}
+
+/* Occasional signal-glitch flicker — apply to a title/brand element */
+.title-glitch {
+  display: inline-block;
+  position: relative;
+  animation: title-glitch 7s infinite;
+}
+
+@keyframes title-glitch {
+  0%,
+  92%,
+  100% {
+    transform: translate(0, 0);
+    filter: none;
+  }
+  93% {
+    transform: translate(-2px, 1px);
+    filter: hue-rotate(20deg);
+  }
+  94% {
+    transform: translate(2px, -1px);
+    filter: hue-rotate(-15deg);
+  }
+  95% {
+    transform: translate(-1px, 0);
+    filter: hue-rotate(10deg);
+  }
+  96% {
+    transform: translate(1px, 1px);
+    filter: none;
   }
 }

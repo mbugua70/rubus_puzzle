@@ -19,7 +19,8 @@ export function DisplayHomePage() {
 
   return (
     <div className={styles.wrapper}>
-      <h1 className={styles.title}>Rubus Puzzle</h1>
+      <p className="kicker">Safaricom Hackathon</p>
+      <h1 className={`${styles.title} title-glitch`}>Rubus Puzzle</h1>
       <p className={styles.subtitle}>Enter the game code from the facilitator to open this display.</p>
 
       <form className={styles.form} onSubmit={handleSubmit}>
