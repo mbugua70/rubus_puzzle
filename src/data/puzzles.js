@@ -126,6 +126,7 @@ export const puzzles = [
     leftImage: '/puzzleImage/basket.png',
     rightImage: '/puzzleImage/ball.png',
     category: 'Sport',
+    
     difficulty: 'easy',
     hint: 'A sport where players shoot a ball through a hoop.',
     active: true,

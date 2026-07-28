@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useDisplaySocket } from '../hooks/useDisplaySocket.js'
 import { useGameSounds } from '../hooks/useGameSounds.js'
 import { useStatusSounds } from '../hooks/useStatusSounds.js'
@@ -12,6 +13,7 @@ import { ResultsScreen } from '../screens/ResultsScreen.jsx'
 import { GameLoadErrorScreen } from '../screens/GameLoadErrorScreen.jsx'
 import { ConnectionOverlay } from './ConnectionOverlay.jsx'
 import { FullscreenButton } from './FullscreenButton.jsx'
+import { LeaveGameButton } from './LeaveGameButton.jsx'
 import styles from './ConnectedGameDisplay.module.css'
 
 /**
@@ -21,9 +23,11 @@ import styles from './ConnectedGameDisplay.module.css'
  * catches up) says - this component itself never mutates gameplay state.
  */
 export function ConnectedGameDisplay({ gameCode, initialState }) {
+  const navigate = useNavigate()
   const sounds = useGameSounds()
   const fullscreen = useFullscreen()
   const { gameState, connectionStatus, error, hasSyncedOnce } = useDisplaySocket({ gameCode, initialState })
+  const leaveGame = () => navigate('/')
 
   const state = gameState ?? initialState
   useStatusSounds(state.status, sounds)
@@ -56,6 +60,7 @@ export function ConnectedGameDisplay({ gameCode, initialState }) {
           onToggleFullscreen={fullscreen.toggle}
           isMuted={sounds.isMuted}
           onToggleMute={sounds.toggleMute}
+          onLeave={leaveGame}
         />
       )
       break
@@ -97,6 +102,7 @@ export function ConnectedGameDisplay({ gameCode, initialState }) {
       {screen}
       {state.status !== GameStatus.WAITING && (
         <div className={styles.floatingControls}>
+          <LeaveGameButton onLeave={leaveGame} />
           <FullscreenButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
         </div>
       )}

@@ -3,4 +3,6 @@
   top: clamp(16px, 2vw, 32px);
   right: clamp(16px, 2vw, 32px);
   z-index: 40;
+  display: flex;
+  gap: 10px;
 }
