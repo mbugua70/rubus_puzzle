@@ -35,7 +35,11 @@ const CONTENT_BY_STATUS = {
   timeout: { icon: '⏱', title: "TIME'S UP!", tone: 'timeout' },
 }
 
-/** Shown over the puzzle once the backend has judged it (correct/wrong) or it's timed out; reveals the answer. */
+/**
+ * Shown over the puzzle once the backend has judged it (correct/wrong) or it's timed out.
+ * The answer is only revealed on a correct outcome - the puzzle repeats for the next
+ * player in line on wrong/timeout, so showing it away would spoil their attempt.
+ */
 export function FeedbackOverlay({ status, answer }) {
   const content = CONTENT_BY_STATUS[status]
   if (!content) return null
@@ -62,7 +66,7 @@ export function FeedbackOverlay({ status, answer }) {
           {content.icon}
         </motion.div>
         <div className={styles.title}>{content.title}</div>
-        {answer && <div className={styles.answer}>{answer}</div>}
+        {status === 'correct' && answer && <div className={styles.answer}>{answer}</div>}
         {status === 'correct' && (
           <motion.div
             className={styles.points}
