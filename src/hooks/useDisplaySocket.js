@@ -13,9 +13,9 @@ import { socket } from '../socket/socket.js'
  * concerned - it does not remember the old room or role - so `game:join` is
  * re-emitted on every `connect` event, not just the first one.
  *
- * @param {{ gameCode: string, initialState?: import('../types/game.js').GameStatePayload }} options
+ * @param {{ gameCode: string, initialState?: import('../types/game.js').GameStatePayload, onRedirect?: (newGameCode: string) => void }} options
  */
-export function useDisplaySocket({ gameCode, initialState }) {
+export function useDisplaySocket({ gameCode, initialState, onRedirect }) {
   const [gameState, setGameState] = useState(initialState)
   const [connectionStatus, setConnectionStatus] = useState('idle')
   const [error, setError] = useState(undefined)
@@ -65,10 +65,17 @@ export function useDisplaySocket({ gameCode, initialState }) {
       setHasSyncedOnce(true)
     }
 
+    // The facilitator sends this when they start a fresh game from this
+    // display's room, so the TV can follow along without anyone touching it.
+    function handleRedirect({ newGameCode }) {
+      onRedirect?.(newGameCode)
+    }
+
     socket.on('connect', handleConnect)
     socket.on('disconnect', handleDisconnect)
     socket.on('connect_error', handleConnectError)
     socket.on('game:state', handleGameState)
+    socket.on('display:redirect', handleRedirect)
 
     if (socket.connected) {
       joinGame()
@@ -83,9 +90,10 @@ export function useDisplaySocket({ gameCode, initialState }) {
       socket.off('disconnect', handleDisconnect)
       socket.off('connect_error', handleConnectError)
       socket.off('game:state', handleGameState)
+      socket.off('display:redirect', handleRedirect)
       socket.disconnect()
     }
-  }, [gameCode])
+  }, [gameCode, onRedirect])
 
   return { gameState, connectionStatus, error, hasSyncedOnce }
 }

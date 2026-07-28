@@ -1,7 +1,6 @@
 import { motion } from 'motion/react'
 import { FullscreenButton } from '../components/FullscreenButton.jsx'
 import { SoundButton } from '../components/SoundButton.jsx'
-import { LeaveGameButton } from '../components/LeaveGameButton.jsx'
 import { puzzles } from '../data/puzzles.js'
 import styles from './WaitingScreen.module.css'
 
@@ -10,13 +9,12 @@ import styles from './WaitingScreen.module.css'
 const BACKGROUND_IMAGES = puzzles.slice(0, 6).map((puzzle) => puzzle.leftImage)
 
 /** Shown while the backend session status is "waiting" - before the facilitator presses Start. */
-export function WaitingScreen({ gameCode, facilitatorConnected, isFullscreen, onToggleFullscreen, isMuted, onToggleMute, onLeave }) {
+export function WaitingScreen({ gameCode, facilitatorConnected, isFullscreen, onToggleFullscreen, isMuted, onToggleMute }) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.controls}>
         <SoundButton isMuted={isMuted} onToggle={onToggleMute} />
         <FullscreenButton isFullscreen={isFullscreen} onToggle={onToggleFullscreen} />
-        <LeaveGameButton onLeave={onLeave} />
       </div>
 
       <div className={styles.background} aria-hidden="true">
