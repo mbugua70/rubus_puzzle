@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { BrandLogo } from '../components/BrandLogo.jsx'
 import { PuzzleDisplay } from '../components/PuzzleDisplay.jsx'
 import { TimerBar } from '../components/TimerBar.jsx'
 import { ScoreDisplay } from '../components/ScoreDisplay.jsx'
@@ -54,6 +55,7 @@ export function GameScreen({ status, puzzle, currentPuzzleIndex, totalPuzzles, s
     <div className={styles.wrapper} data-hide-cursor={isIdleCursor || undefined}>
       <header className={styles.header}>
         <GameProgress current={currentPuzzleIndex + 1} total={totalPuzzles} />
+        <BrandLogo className={styles.headerLogo} />
         <ScoreDisplay score={score} />
       </header>
 

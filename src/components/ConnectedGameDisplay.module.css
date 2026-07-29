@@ -1,6 +1,9 @@
+/* Bottom-right, not top-right — the header (GameProgress/ScoreDisplay) owns
+   the top corners while a puzzle is on screen, so a fixed top-right control
+   would sit right on top of the score. */
 .floatingControls {
   position: fixed;
-  top: clamp(16px, 2vw, 32px);
+  bottom: clamp(16px, 2vw, 32px);
   right: clamp(16px, 2vw, 32px);
   z-index: 40;
   display: flex;
