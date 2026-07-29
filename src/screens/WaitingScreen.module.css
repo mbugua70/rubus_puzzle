@@ -20,40 +20,34 @@
 .background {
   position: absolute;
   inset: 0;
+  z-index: 1;
   pointer-events: none;
 }
 
 .floatingImage {
   position: absolute;
-  width: clamp(80px, 8vw, 140px);
-  height: clamp(80px, 8vw, 140px);
+  width: clamp(64px, 6vw, 110px);
+  height: clamp(64px, 6vw, 110px);
   object-fit: contain;
-  filter: saturate(0);
+  filter: saturate(0) brightness(1.6);
 }
 
+/* Corners only — the event artwork's subject sits in the center/right. */
 .floatingImage[data-slot='0'] {
-  top: 8%;
-  left: 8%;
+  top: 6%;
+  left: 6%;
 }
 .floatingImage[data-slot='1'] {
-  top: 14%;
-  right: 10%;
+  bottom: 8%;
+  left: 6%;
 }
 .floatingImage[data-slot='2'] {
-  bottom: 12%;
-  left: 12%;
+  top: 6%;
+  right: 6%;
 }
 .floatingImage[data-slot='3'] {
-  bottom: 16%;
-  right: 8%;
-}
-.floatingImage[data-slot='4'] {
-  top: 45%;
-  left: 4%;
-}
-.floatingImage[data-slot='5'] {
-  top: 42%;
-  right: 5%;
+  bottom: 8%;
+  right: 6%;
 }
 
 .content {
@@ -67,11 +61,17 @@
   padding: 0 24px;
 }
 
+.logo {
+  width: clamp(280px, 32vw, 560px);
+}
+
 .title {
-  font-size: clamp(48px, 7vw, 160px);
-  font-weight: 800;
-  color: var(--color-text);
-  letter-spacing: 0.01em;
+  font-size: clamp(18px, 1.6vw, 26px);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0;
 }
 
 .subtitle {

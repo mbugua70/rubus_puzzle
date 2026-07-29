@@ -10,6 +10,12 @@
   padding: 0 24px;
 }
 
+.logo {
+  width: clamp(160px, 16vw, 260px);
+  margin-bottom: clamp(4px, 0.8vh, 12px);
+  opacity: 0.85;
+}
+
 .title {
   font-size: clamp(24px, 2.8vw, 40px);
   font-weight: 800;

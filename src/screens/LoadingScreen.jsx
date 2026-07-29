@@ -1,4 +1,5 @@
 import { motion } from 'motion/react'
+import { BrandLogo } from '../components/BrandLogo.jsx'
 import styles from './LoadingScreen.module.css'
 
 /** Generic full-screen loading state, used both for the initial REST fetch and while the socket is connecting/joining. */
@@ -11,7 +12,7 @@ export function LoadingScreen({ message }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
-        Rubus Puzzle
+        <BrandLogo className={styles.logo} />
       </motion.div>
       <div className={styles.track} role="progressbar" aria-label={message}>
         <div className={styles.fill} />

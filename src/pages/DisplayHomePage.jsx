@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { BrandLogo } from '../components/BrandLogo.jsx'
+import { HoldingBackdrop } from '../components/HoldingBackdrop.jsx'
 import styles from './DisplayHomePage.module.css'
 
 /**
@@ -19,24 +21,28 @@ export function DisplayHomePage() {
 
   return (
     <div className={styles.wrapper}>
-      <p className="kicker">Safaricom Hackathon</p>
-      <h1 className={`${styles.title} title-glitch`}>Rubus Puzzle</h1>
-      <p className={styles.subtitle}>Enter the game code from the facilitator to open this display.</p>
+      <HoldingBackdrop />
 
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <input
-          className={styles.input}
-          type="text"
-          value={gameCode}
-          onChange={(event) => setGameCode(event.target.value)}
-          placeholder="ABC123"
-          aria-label="Game code"
-          autoFocus
-        />
-        <button type="submit" className={styles.submitButton} disabled={!gameCode.trim()}>
-          Open display
-        </button>
-      </form>
+      <div className={styles.content}>
+        <BrandLogo className={styles.logo} />
+        <h1 className={`${styles.title} title-glitch`}>Rubus Puzzle</h1>
+        <p className={styles.subtitle}>Enter the game code from the facilitator to open this display.</p>
+
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <input
+            className={styles.input}
+            type="text"
+            value={gameCode}
+            onChange={(event) => setGameCode(event.target.value)}
+            placeholder="ABC123"
+            aria-label="Game code"
+            autoFocus
+          />
+          <button type="submit" className={styles.submitButton} disabled={!gameCode.trim()}>
+            Open display
+          </button>
+        </form>
+      </div>
     </div>
   )
 }

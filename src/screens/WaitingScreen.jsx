@@ -1,17 +1,21 @@
 import { motion } from 'motion/react'
+import { BrandLogo } from '../components/BrandLogo.jsx'
 import { FullscreenButton } from '../components/FullscreenButton.jsx'
+import { HoldingBackdrop } from '../components/HoldingBackdrop.jsx'
 import { SoundButton } from '../components/SoundButton.jsx'
 import { puzzles } from '../data/puzzles.js'
 import styles from './WaitingScreen.module.css'
 
-// A handful of puzzle images drift subtly in the background — decorative
+// A handful of puzzle images drift subtly over the event artwork — decorative
 // only, so they're aria-hidden and never announced.
-const BACKGROUND_IMAGES = puzzles.slice(0, 6).map((puzzle) => puzzle.leftImage)
+const BACKGROUND_IMAGES = puzzles.slice(0, 4).map((puzzle) => puzzle.leftImage)
 
 /** Shown while the backend session status is "waiting" - before the facilitator presses Start. */
 export function WaitingScreen({ gameCode, facilitatorConnected, isFullscreen, onToggleFullscreen, isMuted, onToggleMute }) {
   return (
     <div className={styles.wrapper}>
+      <HoldingBackdrop />
+
       <div className={styles.controls}>
         <SoundButton isMuted={isMuted} onToggle={onToggleMute} />
         <FullscreenButton isFullscreen={isFullscreen} onToggle={onToggleFullscreen} />
@@ -35,14 +39,15 @@ export function WaitingScreen({ gameCode, facilitatorConnected, isFullscreen, on
       </div>
 
       <div className={styles.content}>
-        <motion.h1
-          className={styles.title}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          Rubus Puzzle
-        </motion.h1>
+          <BrandLogo className={styles.logo} />
+        </motion.div>
+
+        <p className={styles.title}>Rubus Puzzle</p>
 
         <motion.p
           className={styles.status}

@@ -1,0 +1,29 @@
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/*
+ * The source artwork already has "Safaricom Hackathon 2026" baked into it as
+ * text, so it can't be shown crisp without duplicating the BrandLogo overlay
+ * that screens render on top. Blurring it down to mood/color removes that
+ * clash and turns it into ambient event-branded texture instead.
+ */
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  opacity: 0.45;
+  filter: blur(64px) saturate(1.25);
+  transform: scale(1.15);
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(4, 10, 6, 0.45) 0%, rgba(4, 10, 6, 0.8) 68%, rgba(4, 10, 6, 0.95) 100%);
+}

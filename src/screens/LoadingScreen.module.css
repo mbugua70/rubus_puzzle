@@ -9,10 +9,12 @@
 }
 
 .badge {
-  font-size: clamp(28px, 3.4vw, 48px);
-  font-weight: 800;
-  color: var(--color-text);
-  letter-spacing: 0.02em;
+  display: flex;
+  justify-content: center;
+}
+
+.logo {
+  width: clamp(200px, 20vw, 340px);
 }
 
 .track {
