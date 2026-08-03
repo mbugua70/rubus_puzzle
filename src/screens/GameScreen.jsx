@@ -10,7 +10,7 @@ import { GameStatus } from '../types/game.js'
 import styles from './GameScreen.module.css'
 
 const CURSOR_IDLE_MS = 3000
-const ANSWERED_STATUSES = [GameStatus.CORRECT, GameStatus.WRONG, GameStatus.TIMEOUT]
+const ANSWERED_STATUSES = [GameStatus.CORRECT, GameStatus.WRONG, GameStatus.TIMEOUT, GameStatus.REVEALED]
 
 /** Hides the cursor after a period of no mouse movement, only while actively playing. */
 function useIdleCursor(isActive) {

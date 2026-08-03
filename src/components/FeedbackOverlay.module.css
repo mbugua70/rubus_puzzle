@@ -26,6 +26,9 @@
 .overlay[data-tone='timeout'] {
   --tone-color: var(--color-warning);
 }
+.overlay[data-tone='revealed'] {
+  --tone-color: var(--color-accent);
+}
 
 .icon {
   font-size: clamp(56px, 7vw, 150px);

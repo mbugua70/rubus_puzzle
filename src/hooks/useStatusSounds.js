@@ -9,7 +9,7 @@ const SOUND_BY_STATUS = {
   [GameStatus.FINISHED]: 'result',
 }
 
-const DUCK_ON_STATUSES = [GameStatus.CORRECT, GameStatus.WRONG, GameStatus.TIMEOUT]
+const DUCK_ON_STATUSES = [GameStatus.CORRECT, GameStatus.WRONG, GameStatus.TIMEOUT, GameStatus.REVEALED]
 
 /**
  * Plays sound effects and drives background music purely from backend status

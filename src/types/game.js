@@ -8,7 +8,7 @@
  */
 
 /**
- * @typedef {'waiting'|'countdown'|'playing'|'correct'|'wrong'|'timeout'|'paused'|'finished'} GameStatus
+ * @typedef {'waiting'|'countdown'|'playing'|'correct'|'wrong'|'timeout'|'revealed'|'paused'|'finished'} GameStatus
  */
 
 /** Single source of truth for the status values above, to avoid typos scattered through the app. */
@@ -19,6 +19,7 @@ export const GameStatus = Object.freeze({
   CORRECT: 'correct',
   WRONG: 'wrong',
   TIMEOUT: 'timeout',
+  REVEALED: 'revealed',
   PAUSED: 'paused',
   FINISHED: 'finished',
 })
@@ -35,6 +36,7 @@ export const GameStatus = Object.freeze({
  * @property {number} wrongCount
  * @property {number} skippedCount
  * @property {number} timeoutCount
+ * @property {number} revealedCount
  * @property {boolean} currentPuzzleAnswered
  * @property {string|null} questionStartedAt ISO timestamp
  * @property {string|null} questionEndsAt ISO timestamp

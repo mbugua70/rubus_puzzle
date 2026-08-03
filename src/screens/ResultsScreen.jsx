@@ -4,7 +4,7 @@ import { getResultMessage } from '../utils/gameResults.js'
 import styles from './ResultsScreen.module.css'
 
 /** Shown while the backend status is "finished". Every number here is the server's, never computed locally. */
-export function ResultsScreen({ score, correctCount, wrongCount, skippedCount, timeoutCount, totalPuzzles }) {
+export function ResultsScreen({ score, correctCount, wrongCount, skippedCount, timeoutCount, revealedCount, totalPuzzles }) {
   const message = getResultMessage(correctCount, totalPuzzles)
 
   return (
@@ -48,6 +48,12 @@ export function ResultsScreen({ score, correctCount, wrongCount, skippedCount, t
             <div className={styles.stat}>
               <span className={styles.statValue}>{timeoutCount}</span>
               <span className={styles.statLabel}>Timed out</span>
+            </div>
+          )}
+          {typeof revealedCount === 'number' && (
+            <div className={styles.stat}>
+              <span className={styles.statValue}>{revealedCount}</span>
+              <span className={styles.statLabel}>Revealed</span>
             </div>
           )}
           <div className={styles.stat}>

@@ -36,12 +36,15 @@ const CONTENT_BY_STATUS = {
   correct: { icon: '✓', title: 'CORRECT!', tone: 'correct' },
   wrong: { icon: '✕', title: 'NOT QUITE!', tone: 'wrong' },
   timeout: { icon: '⏱', title: "TIME'S UP!", tone: 'timeout' },
+  revealed: { icon: '💡', title: 'ANSWER REVEALED', tone: 'revealed' },
 }
 
 /**
- * Shown over the puzzle once the backend has judged it (correct/wrong) or it's timed out.
- * The answer is only revealed on a correct outcome - the puzzle repeats for the next
- * player in line on wrong/timeout, so showing it away would spoil their attempt.
+ * Shown over the puzzle once the backend has judged it (correct/wrong), it's
+ * timed out, or the facilitator has revealed the answer. The answer text
+ * itself is only shown on correct/revealed - wrong/timeout intentionally hide
+ * it since the puzzle repeats for the next player in line on those outcomes,
+ * and showing it would spoil their attempt.
  */
 export function FeedbackOverlay({ status, answer }) {
   const content = CONTENT_BY_STATUS[status]
@@ -69,7 +72,7 @@ export function FeedbackOverlay({ status, answer }) {
           {content.icon}
         </motion.div>
         <div className={styles.title}>{content.title}</div>
-        {status === 'correct' && answer && <div className={styles.answer}>{answer}</div>}
+        {(status === 'correct' || status === 'revealed') && answer && <div className={styles.answer}>{answer}</div>}
         {status === 'correct' && (
           <motion.div
             className={styles.points}

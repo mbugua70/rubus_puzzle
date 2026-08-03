@@ -83,6 +83,7 @@ export function ConnectedGameDisplay({ gameCode, initialState }) {
           wrongCount={state.wrongCount}
           skippedCount={state.skippedCount}
           timeoutCount={state.timeoutCount}
+          revealedCount={state.revealedCount}
           totalPuzzles={state.puzzleIds.length}
         />
       )
