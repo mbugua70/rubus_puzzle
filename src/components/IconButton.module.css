@@ -26,6 +26,13 @@
   outline-offset: 2px;
 }
 
+/* Muted is a state worth noticing at a glance (silent audience = missed cues),
+   so it gets a distinct tint rather than relying on the icon shape alone. */
+.button[data-muted] {
+  border-color: var(--color-warning);
+  color: var(--color-warning);
+}
+
 .icon {
   width: 55%;
   height: 55%;

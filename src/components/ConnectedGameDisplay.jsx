@@ -13,6 +13,7 @@ import { ResultsScreen } from '../screens/ResultsScreen.jsx'
 import { GameLoadErrorScreen } from '../screens/GameLoadErrorScreen.jsx'
 import { ConnectionOverlay } from './ConnectionOverlay.jsx'
 import { FullscreenButton } from './FullscreenButton.jsx'
+import { SoundButton } from './SoundButton.jsx'
 import styles from './ConnectedGameDisplay.module.css'
 
 /**
@@ -109,6 +110,7 @@ export function ConnectedGameDisplay({ gameCode, initialState }) {
       {screen}
       {state.status !== GameStatus.WAITING && (
         <div className={styles.floatingControls}>
+          <SoundButton isMuted={sounds.isMuted} onToggle={sounds.toggleMute} />
           <FullscreenButton isFullscreen={fullscreen.isFullscreen} onToggle={fullscreen.toggle} />
         </div>
       )}
